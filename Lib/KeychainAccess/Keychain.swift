@@ -759,7 +759,7 @@ public final class Keychain {
     }
 
     public func allKeys() -> [String] {
-        return type(of: self).prettify(itemClass: itemClass, items: items()).map { $0["key"] as! String }
+        return type(of: self).prettify(itemClass: itemClass, items: items()).flatMap { $0["key"] as? String }
     }
 
     public class func allItems(_ itemClass: ItemClass) -> [[String: Any]] {
@@ -2051,7 +2051,7 @@ public enum Status: OSStatus, Error {
     case unexpectedError                    = -99999
 }
 
-extension Status: CustomStringConvertible {
+extension Status: RawRepresentable, CustomStringConvertible {
 
     public init(status: OSStatus) {
         if let mappedStatus = Status(rawValue: status) {
